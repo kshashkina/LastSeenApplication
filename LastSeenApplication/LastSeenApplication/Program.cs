@@ -32,16 +32,19 @@ namespace LastSeenApplication
 
                             if (user.lastSeenDate == null)
                             {
-                                //users online
+                                Console.WriteLine($"{nickName} is online.");
                             }
                             else
                             {
                                 DateTime givenDate = user.lastSeenDate.Value;
                                 TimeSpan difference = now - givenDate;
                                 string timeAgo = GetTimeAgoString(difference);
+
+                                Console.WriteLine($"{nickName} was online {timeAgo}");
                             }
                         }
-                        
+
+                        offset += 20;
                     }
                     else
                     {
