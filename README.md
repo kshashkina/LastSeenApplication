@@ -9,9 +9,11 @@ This repository contains a simple console application that retrieves and display
 - Time Calculation: The application calculates and displays the time elapsed since a user was last active.
 - Message Formatting: It provides different time-related messages based on the time elapsed, making the output more user-friendly.
 
-### Usage: Clone this repository to your local machine. Build and run the console application to fetch and display user activity information.
+### Usage: 
+Clone this repository to your local machine. Build and run the console application to fetch and display user activity information.
 
-### Requirements: .NET Core or .NET Framework runtime. Internet connectivity to access the remote server's API.
+### Requirements: 
+.NET Core or .NET Framework runtime. Internet connectivity to access the remote server's API.
 
 ### Contributing
 Contributions to this project are welcome! If you'd like to contribute, please follow these guidelines:
