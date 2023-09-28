@@ -19,6 +19,28 @@ namespace LastSeenApplication
                     {
                         string jsonData = response.Content.ReadAsStringAsync().Result;
                         UserData userData = JsonConvert.DeserializeObject<UserData>(jsonData);
+                        if (userData.data == null || userData.data.Length == 0)
+                        {
+                            return;
+                        }
+
+                        DateTime now = DateTime.Now;
+
+                        foreach (var user in userData.data)
+                        {
+                            string nickName = user.nickname;
+
+                            if (user.lastSeenDate == null)
+                            {
+                                //users online
+                            }
+                            else
+                            {
+                                DateTime givenDate = user.lastSeenDate.Value;
+                                TimeSpan difference = now - givenDate;
+                                string timeAgo = GetTimeAgoString(difference);
+                            }
+                        }
                         
                     }
                     else
@@ -27,6 +49,41 @@ namespace LastSeenApplication
                     }
                 }
    
+            }
+        }
+        public static string GetTimeAgoString(TimeSpan difference)
+        {
+            if (difference.TotalSeconds <= 30)
+            {
+                return "just now";
+            }
+            else if (difference.TotalSeconds <= 60)
+            {
+                return "less than a minute ago";
+            }
+            else if (difference.TotalMinutes <= 59)
+            {
+                return "couple of minutes ago";
+            }
+            else if (difference.TotalMinutes <= 119)
+            {
+                return "an hour ago";
+            }
+            else if (difference.TotalMinutes <= 23 * 60)
+            {
+                return "today";
+            }
+            else if (difference.TotalMinutes <= 47 * 60)
+            {
+                return "yesterday";
+            }
+            else if (difference.TotalDays < 7)
+            {
+                return "this week";
+            }
+            else
+            {
+                return "long time ago";
             }
         }
     }
