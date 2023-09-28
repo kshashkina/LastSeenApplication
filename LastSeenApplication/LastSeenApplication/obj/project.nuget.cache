@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wmJGIFzEqLD2VuVPHAYPs5H/L/hsci0+tIREyKuorYsPhLcY5Ew6NesslgVNgeCQPggI4M4Xe+ncC2d7pJIvkw==",
+  "dgSpecHash": "ES87KzxXW/AwdH0W8s7Zk+Gxo08061Mtm0D56M7Isyfn3V8EQflzcsrbBjDmcrOSsDJsDGjNnzn6v/XYYfBouw==",
   "success": true,
   "projectFilePath": "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\kates\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
