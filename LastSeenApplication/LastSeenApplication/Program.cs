@@ -1,4 +1,6 @@
-﻿namespace LastSeenApplication
+﻿using Newtonsoft.Json;
+
+namespace LastSeenApplication
 {
     public class Program
     {
@@ -15,7 +17,9 @@
 
                     if (response.IsSuccessStatusCode)
                     {
-                        // Code for handling the successful HTTP response goes here.
+                        string jsonData = response.Content.ReadAsStringAsync().Result;
+                        UserData userData = JsonConvert.DeserializeObject<UserData>(jsonData);
+                        
                     }
                     else
                     {
@@ -25,5 +29,15 @@
    
             }
         }
+    }
+    public class UserData
+    {
+        public User[] data { get; set; }
+    }
+
+    public class User
+    {
+        public string nickname { get; set; }
+        public DateTime? lastSeenDate { get; set; }
     }
 }
