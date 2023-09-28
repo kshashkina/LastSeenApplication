@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Net.Http;
 
 namespace LastSeenApplication
 {
@@ -24,24 +26,9 @@ namespace LastSeenApplication
                             return;
                         }
 
-                        DateTime now = DateTime.Now;
-
                         foreach (var user in userData.data)
                         {
-                            string nickName = user.nickname;
-
-                            if (user.lastSeenDate == null)
-                            {
-                                Console.WriteLine($"{nickName} is online.");
-                            }
-                            else
-                            {
-                                DateTime givenDate = user.lastSeenDate.Value;
-                                TimeSpan difference = now - givenDate;
-                                string timeAgo = GetTimeAgoString(difference);
-
-                                Console.WriteLine($"{nickName} was online {timeAgo}");
-                            }
+                            RetrieveUserData(user);
                         }
 
                         offset += 20;
@@ -51,7 +38,25 @@ namespace LastSeenApplication
                         Console.WriteLine("Error: " + response.StatusCode);
                     }
                 }
-   
+            }
+        }
+
+        public static void RetrieveUserData(User user)
+        {
+            string nickName = user.nickname;
+
+            if (user.lastSeenDate == null)
+            {
+                Console.WriteLine($"{nickName} is online.");
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                DateTime givenDate = user.lastSeenDate.Value;
+                TimeSpan difference = now - givenDate;
+                string timeAgo = GetTimeAgoString(difference);
+
+                Console.WriteLine($"{nickName} was online {timeAgo}");
             }
         }
         public static string GetTimeAgoString(TimeSpan difference)
