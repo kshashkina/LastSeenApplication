@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.Test\\LastSeenApplication.Test.csproj": {}
+  },
+  "projects": {
+    "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.Test\\LastSeenApplication.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.Test\\LastSeenApplication.Test.csproj",
+        "projectName": "LastSeenApplication.Test",
+        "projectPath": "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.Test\\LastSeenApplication.Test.csproj",
+        "packagesPath": "C:\\Users\\kates\\.nuget\\packages\\",
+        "outputPath": "C:\\KSE IT\\FOSE\\LastSeenApplication\\LastSeenApplication\\LastSeenApplication.Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\kates\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.3.2, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.3, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
