@@ -18,7 +18,7 @@ while (shouldRun)
             var isOnline = user.isOnline;
             var onlineUser = new OnlineUsersData
             {
-                Timestamp = DateTime.Now.ToString(("yyyy-dd-MM-HH:mm:ss")),
+                Timestamp = DateTime.Now.ToString(("yyyy-MM-dd-HH:mm:ss")),
                 userId = userId,
                 lastSeen = lastSeen,
                 isOnline = isOnline
