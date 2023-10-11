@@ -72,7 +72,7 @@ public class PersonController : ControllerBase
                 chancePercent
             };
             
-            return Ok(new { response });
+            return Ok(response);
         }
         catch (Exception ex)
         {

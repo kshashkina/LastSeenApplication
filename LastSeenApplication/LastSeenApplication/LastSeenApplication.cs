@@ -8,7 +8,7 @@ namespace LastSeenApplication
         public static void Main(string[] args)
         {
             string language = ChooseLanguage();
-            Console.WriteLine("What you want to do? Have a list of all users - 1, have number of users at the exact time - 2");
+            Output(language);
             int input = Convert.ToInt32(Console.ReadLine());
             switch (input)
             {
@@ -23,6 +23,9 @@ namespace LastSeenApplication
                     break;
                 case 4:
                     GetPredictionOnline();
+                    break;
+                case 5:
+                    GetPredictionOnlineUser();
                     break;
             }
         }
@@ -115,15 +118,47 @@ namespace LastSeenApplication
                 }
             }
         }
+        
+        static async Task GetPredictionOnlineUser()
+        {
+            Console.WriteLine("Write your date:");
+            var date = Console.ReadLine();
+            Console.WriteLine("Write user id:");
+            var id = Console.ReadLine();
+            Console.WriteLine("Write tolerance:");
+            var tolerance = Console.ReadLine();
+            string apiUrl = $"http://localhost:5176/api/prediction/user?date={date}&tolerance={tolerance}&userId={id}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+            }
+        }
 
         public static string ChooseLanguage()
         {
             Console.WriteLine("Choose the language:");
             Console.WriteLine("1. English");
-            Console.WriteLine("2. Русский");
-            Console.WriteLine("3. Українська");
-            Console.WriteLine("4. Deutsch");
-            Console.WriteLine("5. Français");
+            Console.WriteLine("2. Українська");
+            Console.WriteLine("3. Deutsch");
+            Console.WriteLine("4. Français");
             int languageChoice = Convert.ToInt32(Console.ReadLine());
 
             string language = "en";
@@ -134,15 +169,12 @@ namespace LastSeenApplication
                     language = "en";
                     break;
                 case 2:
-                    language = "ru";
-                    break;
-                case 3:
                     language = "uk";
                     break;
-                case 4:
+                case 3:
                     language = "de";
                     break;
-                case 5:
+                case 4:
                     language = "fr";
                     break;
 
@@ -211,16 +243,12 @@ namespace LastSeenApplication
                 {
                     case "en":
                         return $"{nickName} is online.";
-                    case "ru":
-                        return $"{nickName} в сети.";
                     case "uk":
                         return $"{nickName} у мережі.";
                     case "de":
                         return $"{nickName} ist online.";
                     case "fr":
                         return $"{nickName} est en ligne.";
-                    case "zh":
-                        return $"{nickName} 在線。";
                     default:
                         return $"{nickName} is online.";
                 }
@@ -236,8 +264,6 @@ namespace LastSeenApplication
                 {
                     case "en":
                         return $"{nickName} {timeAgo}";
-                    case "ru":
-                        return $"{nickName} был(а) в сети {timeAgo}";
                     case "uk":
                         return $"{nickName} був(ла) у мережі {timeAgo}";
                     case "de":
@@ -286,39 +312,6 @@ namespace LastSeenApplication
                     else
                     {
                         return "a long time ago";
-                    }
-                case "ru":
-                    if (difference.TotalSeconds <= 30)
-                    {
-                        return "только что";
-                    }
-                    else if (difference.TotalSeconds <= 60)
-                    {
-                        return "меньше минуты назад";
-                    }
-                    else if (difference.TotalMinutes <= 59)
-                    {
-                        return "пару минут назад";
-                    }
-                    else if (difference.TotalMinutes <= 119)
-                    {
-                        return "час назад";
-                    }
-                    else if (difference.TotalMinutes <= 23 * 60)
-                    {
-                        return "сегодня";
-                    }
-                    else if (difference.TotalMinutes <= 47 * 60)
-                    {
-                        return "вчера";
-                    }
-                    else if (difference.TotalDays < 7)
-                    {
-                        return "на этой неделе";
-                    }
-                    else
-                    {
-                        return "давно";
                     }
                 case "uk":
                     if (difference.TotalSeconds <= 30)
@@ -421,6 +414,33 @@ namespace LastSeenApplication
                     }
                 default:
                     return "long time ago";
+            }
+        }
+
+        public static void Output(string language)
+        {
+            switch (language)
+            {
+                case "en":
+                    Console.WriteLine("What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time -" +
+                                      " 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\n" +
+                                      "Prediction about user online - 5");
+                    break;
+                case "uk":
+                    Console.WriteLine("Що ви хочете зробити? \nОтримати список всіх користувачів - 1 \nОтримати кількість користувачів в точний час - 2" +
+                                      "\n Перевірити, чи був користувач в мережі в точну дату - 3" +
+                                      "\nПрогноз кількості користувачів онлайн - 4\nПрогноз користувачів онлайн - 5");
+                    break;
+                case "de":
+                    Console.WriteLine("Was möchten Sie tun? \nEine Liste aller Benutzer haben - 1 \nDie Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2" +
+                                      "\n Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3" +
+                                      "\nPrognose zur Anzahl der Benutzer online - 4\nPrognose für Benutzer online - 5");
+                    break;
+                case "fr":
+                    Console.WriteLine("Que souhaitez-vous faire ? \nObtenir la liste de tous les utilisateurs - 1 \nObtenir le nombre d'utilisateurs à un moment précis - 2\n" +
+                                      " Vérifier si l'utilisateur était en ligne à une date précise - 3\nPrévision sur le nombre d'utilisateurs en ligne - " +
+                                      "4\nPrévision sur les utilisateurs en ligne - 5");
+                    break;
             }
         }
     }
