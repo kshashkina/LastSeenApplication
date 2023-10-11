@@ -8,15 +8,48 @@ namespace LastSeenApplication
         public static void Main(string[] args)
         {
             string language = ChooseLanguage();
+            Console.WriteLine("What you want to do? Have a list of all users - 1, have number of users at the exact time - 2");
             int input = Convert.ToInt32(Console.ReadLine());
             switch (input)
             {
                 case 1:
                     RunLastSeenApplication(0, language);
                     break;
+                case 2: 
+                    GetOnlineUsersCount();
+                    break;
             }
         }
         
+        static async Task GetOnlineUsersCount()
+        {
+            Console.WriteLine("Write your date:");
+            var date = Console.ReadLine();
+            string apiUrl = $"http://localhost:5169/api/stats/users?date={date}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                         Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+
         public static string ChooseLanguage()
         {
             Console.WriteLine("Choose the language:");
@@ -325,6 +358,7 @@ namespace LastSeenApplication
             }
         }
     }
+
     public class UserData
     {
         public User[] data { get; set; }
