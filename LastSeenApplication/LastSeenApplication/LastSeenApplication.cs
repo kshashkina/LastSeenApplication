@@ -18,6 +18,9 @@ namespace LastSeenApplication
                 case 2: 
                     GetOnlineUsersCount();
                     break;
+                case 3:
+                    GetUserDate();
+                    break;
             }
         }
         
@@ -36,6 +39,37 @@ namespace LastSeenApplication
                     if (response.IsSuccessStatusCode)
                     {
                          Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+        
+        static async Task GetUserDate()
+        {
+            Console.WriteLine("Write your date:");
+            var date = Console.ReadLine();
+            Console.WriteLine("Write user id:");
+            var id = Console.ReadLine();
+            string apiUrl = $"http://localhost:5130/api/stats/user?date={date}&userId={id}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine(await response.Content.ReadAsStringAsync());
 
                     }
                     else
