@@ -21,6 +21,9 @@ namespace LastSeenApplication
                 case 3:
                     GetUserDate();
                     break;
+                case 4:
+                    GetPredictionOnline();
+                    break;
             }
         }
         
@@ -60,6 +63,35 @@ namespace LastSeenApplication
             Console.WriteLine("Write user id:");
             var id = Console.ReadLine();
             string apiUrl = $"http://localhost:5130/api/stats/user?date={date}&userId={id}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+        
+        static async Task GetPredictionOnline()
+        {
+            Console.WriteLine("Write your date:");
+            var date = Console.ReadLine();
+            string apiUrl = $"http://localhost:5221/api/prediction/user?date={date}";
 
             using (HttpClient client = new HttpClient())
             {
