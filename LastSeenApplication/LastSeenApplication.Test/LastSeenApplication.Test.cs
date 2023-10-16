@@ -2,6 +2,7 @@ using Moq;
 using System.Net;
 using LastSeenApplication;
 using Moq.Protected;
+using Newtonsoft.Json;
 using Xunit;
 
 public class UserDataFetcherTests
@@ -166,4 +167,205 @@ public class LocalizationTests : IDisposable
         // You can assert based on the expected localized time ago message
         Assert.Contains("minutes ago", formattedMessage);
     }
+}
+
+public class FirstFeatureFetcherTest
+{
+    [Fact]
+    public async Task GetOnlineUsersCount_Success()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-09-10-08:58:51";
+        string count = "{\"usersOnline\":45}";
+
+        // Act
+        var result = Program.GetOnlineUsersCount(time).Result;
+        
+
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(count, result);
+        
+    }
+
+    [Fact]
+    public async Task GetOnlineUsersCount_Null()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-09-16-08:58:51";
+        string count = "{\"usersOnline\":null}";
+
+
+        // Act
+        var result = Program.GetOnlineUsersCount(time).Result;
+        
+        // Assert
+        Assert.Equal(count, result);
+    }
+}
+
+public class SecondFeatureTest
+{
+    [Fact]
+    public async Task GetUserDate_Success()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-10-11-21:12:03";
+        string id = "bb367131-ec06-3d69-a861-eeca3f9cc88d";
+        string output = "{\"isOnline\":\"false\",\"lastSeen\":\"11.10.2023 21:11:12\"}";
+        // Act
+        var result = Program.GetUserDate(time, id).Result;
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(output, result);
+        
+    }
+    [Fact]
+    public async Task GetUserDate_Null()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-10-11-23:12:03";
+        string id = "bb367131-ec06-3d69-a861-eeca3f9cc88d";
+        // Act
+        var result = Program.GetUserDate(time, id).Result;
+        // Assert
+        Assert.Null(result);
+        
+    }
+}
+
+public class ThirdFeatureTest
+{
+    [Fact]
+    public async Task GetPredictionOnline_Success()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-09-17-08:59:14";
+        string count = "{\"usersOnline\":47}";
+
+        // Act
+        var result = Program.GetPredictionOnline(time).Result;
+        
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(count, result);
+        
+    }
+    [Fact]
+    public async Task GetPredictionOnline_Null()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-09-16-08:59:14";
+
+        // Act
+        var result = Program.GetPredictionOnline(time).Result;
+        
+        // Assert
+        Assert.Null(result);
+    }
+}
+
+public class ForthFeatureTest
+{
+    [Fact]
+    public async Task GetPredictionOnlineUser_Success()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-10-18-21:12:03";
+        string id = "cbf0d80b-8532-070b-0df6-a0279e65d0b2";
+        string tolerance = "0.82";
+        string output = "{\"isOnline\":false,\"chancePercent\":0}";
+        // Act
+        var result = Program.GetPredictionOnlineUser(time, tolerance, id).Result;
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(output, result);
+        
+    }
+    [Fact]
+    public async Task GetPredictionOnlineUser_Null()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            });
+        string time = "2023-10-17-21:12:03";
+        string id = "cbf0d80b-8532-070b-0df6-a0279e65d0b2";
+        string tolerance = "0.82";
+        // Act
+        var result = Program.GetPredictionOnlineUser(time, tolerance, id).Result;
+        // Assert
+        Assert.Null(result);
+        
+    }   
 }

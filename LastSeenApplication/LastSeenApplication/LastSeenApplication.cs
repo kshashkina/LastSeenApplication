@@ -17,24 +17,36 @@ namespace LastSeenApplication
                     RunLastSeenApplication(0, language);
                     break;
                 case 2: 
-                    GetOnlineUsersCount();
+                    Console.WriteLine("Write your date:");
+                    var date = Console.ReadLine();
+                    GetOnlineUsersCount(date);
                     break;
                 case 3:
-                    GetUserDate();
+                    Console.WriteLine("Write your date:");
+                    var dateUser = Console.ReadLine();
+                    Console.WriteLine("Write user id:");
+                    var id = Console.ReadLine();
+                    GetUserDate(dateUser, id);
                     break;
                 case 4:
-                    GetPredictionOnline();
+                    Console.WriteLine("Write your date:");
+                    var datePrediction = Console.ReadLine();
+                    GetPredictionOnline(datePrediction);
                     break;
                 case 5:
-                    GetPredictionOnlineUser();
+                    Console.WriteLine("Write your date:");
+                    var datePredictionUser = Console.ReadLine();
+                    Console.WriteLine("Write user id:");
+                    var idPredictionUser = Console.ReadLine();
+                    Console.WriteLine("Write tolerance:");
+                    var tolerance = Console.ReadLine();
+                    GetPredictionOnlineUser(datePredictionUser, idPredictionUser, tolerance);
                     break;
             }
         }
         
-        static async Task GetOnlineUsersCount()
+        public static async Task<string> GetOnlineUsersCount(string date)
         {
-            Console.WriteLine("Write your date:");
-            var date = Console.ReadLine();
             string apiUrl = $"http://localhost:5169/api/stats/users?date={date}";
 
             using (HttpClient client = new HttpClient())
@@ -46,7 +58,7 @@ namespace LastSeenApplication
                     if (response.IsSuccessStatusCode)
                     {
                          Console.WriteLine(await response.Content.ReadAsStringAsync());
-
+                         return await response.Content.ReadAsStringAsync();
                     }
                     else
                     {
@@ -58,14 +70,12 @@ namespace LastSeenApplication
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
+
+            return null;
         }
         
-        static async Task GetUserDate()
+        public static async Task<string> GetUserDate(string date, string id)
         {
-            Console.WriteLine("Write your date:");
-            var date = Console.ReadLine();
-            Console.WriteLine("Write user id:");
-            var id = Console.ReadLine();
             string apiUrl = $"http://localhost:5130/api/stats/user?date={date}&userId={id}";
 
             using (HttpClient client = new HttpClient())
@@ -77,6 +87,8 @@ namespace LastSeenApplication
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine(await response.Content.ReadAsStringAsync());
+                        return await response.Content.ReadAsStringAsync();
+
 
                     }
                     else
@@ -89,12 +101,12 @@ namespace LastSeenApplication
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
+
+            return null;
         }
         
-        static async Task GetPredictionOnline()
+        public static async Task<string> GetPredictionOnline(string date)
         {
-            Console.WriteLine("Write your date:");
-            var date = Console.ReadLine();
             string apiUrl = $"http://localhost:5221/api/prediction/user?date={date}";
 
             using (HttpClient client = new HttpClient())
@@ -106,6 +118,8 @@ namespace LastSeenApplication
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine(await response.Content.ReadAsStringAsync());
+                        return await response.Content.ReadAsStringAsync();
+
 
                     }
                     else
@@ -118,16 +132,12 @@ namespace LastSeenApplication
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
+
+            return null;
         }
         
-        static async Task GetPredictionOnlineUser()
+        public static async Task<string> GetPredictionOnlineUser(string date, string tolerance, string id)
         {
-            Console.WriteLine("Write your date:");
-            var date = Console.ReadLine();
-            Console.WriteLine("Write user id:");
-            var id = Console.ReadLine();
-            Console.WriteLine("Write tolerance:");
-            var tolerance = Console.ReadLine();
             string apiUrl = $"http://localhost:5176/api/prediction/user?date={date}&tolerance={tolerance}&userId={id}";
 
             using (HttpClient client = new HttpClient())
@@ -139,6 +149,8 @@ namespace LastSeenApplication
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine(await response.Content.ReadAsStringAsync());
+                        return await response.Content.ReadAsStringAsync();
+
 
                     }
                     else
@@ -151,6 +163,8 @@ namespace LastSeenApplication
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
+
+            return null;
         }
 
         public static void RunLastSeenApplication(int startingOffset, string language)
