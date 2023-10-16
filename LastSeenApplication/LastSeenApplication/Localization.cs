@@ -17,49 +17,59 @@ public class Localization
         {
             case 1:
                 language = "en";
-                break;
+                return language;
             case 2:
                 language = "uk";
-                break;
+                return language;
             case 3:
                 language = "de";
-                break;
+                return language;
             case 4:
                 language = "fr";
-                break;
+                return language;
 
             default:
                 Console.WriteLine("There is no such language, starting in English");
-                break;
+                return language;
         }
 
         return language;
     }
-    public void Output(string language)
+    public string Output(string language)
     {
         switch (language)
         {
             case "en":
-                Console.WriteLine("What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time -" +
-                                  " 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\n" +
-                                  "Prediction about user online - 5");
-                break;
+                var textEN =
+                    "What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time -" +
+                    " 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\n" +
+                    "Prediction about user online - 5";
+                Console.WriteLine(textEN);
+                return textEN;
             case "uk":
-                Console.WriteLine("Що ви хочете зробити? \nОтримати список всіх користувачів - 1 \nОтримати кількість користувачів в точний час - 2" +
-                                  "\n Перевірити, чи був користувач в мережі в точну дату - 3" +
-                                  "\nПрогноз кількості користувачів онлайн - 4\nПрогноз користувачів онлайн - 5");
-                break;
+                var textUK =
+                    "Що ви хочете зробити? \nОтримати список всіх користувачів - 1 \nОтримати кількість користувачів в точний час - 2" +
+                    "\n Перевірити, чи був користувач в мережі в точну дату - 3" +
+                    "\nПрогноз кількості користувачів онлайн - 4\nПрогноз користувачів онлайн - 5";
+                Console.WriteLine(textUK);
+                return textUK;
             case "de":
-                Console.WriteLine("Was möchten Sie tun? \nEine Liste aller Benutzer haben - 1 \nDie Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2" +
-                                  "\n Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3" +
-                                  "\nPrognose zur Anzahl der Benutzer online - 4\nPrognose für Benutzer online - 5");
-                break;
+                var textDE =
+                    "Was möchten Sie tun? \nEine Liste aller Benutzer haben - 1 \nDie Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2" +
+                    "\n Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3" +
+                    "\nPrognose zur Anzahl der Benutzer online - 4\nPrognose für Benutzer online - 5";
+                Console.WriteLine(textDE);
+                return textDE;
             case "fr":
-                Console.WriteLine("Que souhaitez-vous faire ? \nObtenir la liste de tous les utilisateurs - 1 \nObtenir le nombre d'utilisateurs à un moment précis - 2\n" +
-                                  " Vérifier si l'utilisateur était en ligne à une date précise - 3\nPrévision sur le nombre d'utilisateurs en ligne - " +
-                                  "4\nPrévision sur les utilisateurs en ligne - 5");
-                break;
+                var textFR =
+                    "Que souhaitez-vous faire ? \nObtenir la liste de tous les utilisateurs - 1 \nObtenir le nombre d'utilisateurs à un moment précis - 2\n" +
+                    " Vérifier si l'utilisateur était en ligne à une date précise - 3\nPrévision sur le nombre d'utilisateurs en ligne - " +
+                    "4\nPrévision sur les utilisateurs en ligne - 5";
+                Console.WriteLine(textFR);
+                return textFR;
         }
+
+        return "";
     }
     public string FormatUserData(User user, string language)
     {
@@ -243,4 +253,119 @@ public class Localization
                     return "long time ago";
             }
         }
+
+    public string FirstFeatureTranslation(string language)
+    {
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Write your date:");
+                var dateEN = Console.ReadLine();
+                return dateEN;
+            case "uk":
+                Console.WriteLine("Напишіть потрібну дату:");
+                var dateUK = Console.ReadLine();
+                return dateUK;
+            case "de":
+                Console.WriteLine("Schreiben Sie Ihr Datum:");
+                var dateDE = Console.ReadLine();
+                return dateDE;
+            case "fr":
+                Console.WriteLine("Écrivez votre date :");
+                var dateFR = Console.ReadLine();
+                return dateFR;
+
+
+        }
+        return "";
+    } 
+    public (string date, string userId) SecondFeatureTranslation(string language)
+    {
+        string date = "";
+        string userId = "";
+
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Write your date:");
+                date = Console.ReadLine();
+                Console.WriteLine("Enter the user ID:");
+                userId = Console.ReadLine();
+                break;
+
+            case "uk":
+                Console.WriteLine("Напишіть потрібну дату:");
+                date = Console.ReadLine();
+                Console.WriteLine("Введіть ідентифікатор користувача:");
+                userId = Console.ReadLine();
+                break;
+
+            case "de":
+                Console.WriteLine("Schreiben Sie Ihr Datum:");
+                date = Console.ReadLine();
+                Console.WriteLine("Geben Sie die Benutzer-ID ein:");
+                userId = Console.ReadLine();
+                break;
+
+            case "fr":
+                Console.WriteLine("Écrivez votre date :");
+                date = Console.ReadLine();
+                Console.WriteLine("Entrez l'identifiant de l'utilisateur :");
+                userId = Console.ReadLine();
+                break;
+        }
+    
+        return (date, userId);
+    }
+    
+    public (string date, string userId, string tolerance) ForthFeatureTranslation(string language)
+    {
+        string date = "";
+        string userId = "";
+        string tolerance = "";
+
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Write your date:");
+                date = Console.ReadLine();
+                Console.WriteLine("Enter the user ID:");
+                userId = Console.ReadLine();
+                Console.WriteLine("Enter the tolerance:");
+                tolerance = Console.ReadLine();
+                break;
+
+            case "uk":
+                Console.WriteLine("Напишіть потрібну дату:");
+                date = Console.ReadLine();
+                Console.WriteLine("Введіть ідентифікатор користувача:");
+                userId = Console.ReadLine();
+                Console.WriteLine("Введіть допуск:");
+                tolerance = Console.ReadLine();
+                break;
+
+            case "de":
+                Console.WriteLine("Schreiben Sie Ihr Datum:");
+                date = Console.ReadLine();
+                Console.WriteLine("Geben Sie die Benutzer-ID ein:");
+                userId = Console.ReadLine();
+                Console.WriteLine("Geben Sie die Toleranz ein:");
+                tolerance = Console.ReadLine();
+                break;
+
+            case "fr":
+                Console.WriteLine("Écrivez votre date :");
+                date = Console.ReadLine();
+                Console.WriteLine("Entrez l'identifiant de l'utilisateur :");
+                userId = Console.ReadLine();
+                Console.WriteLine("Entrez la tolérance:");
+                tolerance = Console.ReadLine();
+                break;
+        }
+    
+        return (date, userId, tolerance);
+    }
+
+
 }
+

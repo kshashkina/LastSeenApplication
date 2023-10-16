@@ -16,31 +16,26 @@ namespace LastSeenApplication
                 case 1:
                     RunLastSeenApplication(0, language);
                     break;
-                case 2: 
-                    Console.WriteLine("Write your date:");
-                    var date = Console.ReadLine();
+                case 2:
+                    var date = localization.FirstFeatureTranslation(language);
                     GetOnlineUsersCount(date);
                     break;
                 case 3:
-                    Console.WriteLine("Write your date:");
-                    var dateUser = Console.ReadLine();
-                    Console.WriteLine("Write user id:");
-                    var id = Console.ReadLine();
+                    var dateUser = "";
+                    var id = "";
+                    (dateUser, id) = localization.SecondFeatureTranslation(language);
                     GetUserDate(dateUser, id);
                     break;
                 case 4:
-                    Console.WriteLine("Write your date:");
-                    var datePrediction = Console.ReadLine();
+                    var datePrediction = localization.FirstFeatureTranslation(language);
                     GetPredictionOnline(datePrediction);
                     break;
                 case 5:
-                    Console.WriteLine("Write your date:");
-                    var datePredictionUser = Console.ReadLine();
-                    Console.WriteLine("Write user id:");
-                    var idPredictionUser = Console.ReadLine();
-                    Console.WriteLine("Write tolerance:");
-                    var tolerance = Console.ReadLine();
-                    GetPredictionOnlineUser(datePredictionUser, idPredictionUser, tolerance);
+                    var datePredictionUser = "";
+                    var idPredictionUser = "";
+                    var tolerance = "";
+                    (datePrediction, idPredictionUser, tolerance) = localization.ForthFeatureTranslation(language);
+                    GetPredictionOnlineUser(datePredictionUser, tolerance, idPredictionUser);
                     break;
             }
         }
