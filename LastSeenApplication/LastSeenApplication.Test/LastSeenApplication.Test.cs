@@ -1,156 +1,169 @@
-using System;
+using Moq;
+using System.Net;
 using LastSeenApplication;
-using NUnit.Framework;
+using Moq.Protected;
+using Xunit;
 
-namespace LastSeenApplicationTests
+public class UserDataFetcherTests
 {
-    public class Tests
+    [Fact]
+    public async Task FetchUserData_WithValidResponse_ReturnsUserDataArray()
     {
-        [Test]
-        public void GetTimeAgoString_ShouldReturnJustNow_WhenDifferenceIsLessThan30Seconds()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromSeconds(20);
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(@"{ ""data"": [ { ""name"": ""User1"" }, { ""name"": ""User2"" } ] }")
+            });
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+        // Act
+        var result =  Program.FetchUserData(0, httpClient);
 
-            // Assert
-            Assert.AreEqual("just now", timeAgo);
-        }
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Length);
+    }
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnLessThanAMinuteAgo_WhenDifferenceIsLessThan60Seconds()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromSeconds(40);
+    [Fact]
+    public async Task FetchUserData_WithInvalidResponse_ReturnsNull()
+    {
+        // Arrange
+        var mockHttpHandler = new Mock<HttpMessageHandler>();
+        var httpClient = new HttpClient(mockHttpHandler.Object);
+        mockHttpHandler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.InternalServerError
+            });
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+        // Act
+        var result =  Program.FetchUserData(0, httpClient);
 
-            // Assert
-            Assert.AreEqual("less than a minute ago", timeAgo);
-        }
+        // Assert
+        Assert.Null(result);
+    }
+}
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnCoupleOfMinutesAgo_WhenDifferenceIsLessThan59Minutes()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromMinutes(30);
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+public class LocalizationTests : IDisposable
+{
+    private StringWriter consoleOutput;
+    private TextWriter originalConsoleOutput;
 
-            // Assert
-            Assert.AreEqual("couple of minutes ago", timeAgo);
-        }
+    public LocalizationTests()
+    {
+        // Initialize and capture the original Console.Out
+        consoleOutput = new StringWriter();
+        originalConsoleOutput = Console.Out;
+    }
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnAnHourAgo_WhenDifferenceIsLessThan119Minutes()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromMinutes(60);
+    public void Dispose()
+    {
+        // Restore the original Console.Out and dispose of the StringWriter
+        Console.SetOut(originalConsoleOutput);
+        consoleOutput.Dispose();
+    }
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+    [Fact]
+    public void ChooseLanguage_ValidChoice_ReturnsLanguageCode()
+    {
+        // Arrange
+        var localization = new Localization();
 
-            // Assert
-            Assert.AreEqual("an hour ago", timeAgo);
-        }
+        // Simulate user input
+        Console.SetIn(new StringReader("1"));
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnToday_WhenDifferenceIsLessThan23Hours()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromHours(12);
+        // Redirect Console.Out to the StringWriter
+        Console.SetOut(consoleOutput);
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+        // Act
+        string language = localization.ChooseLanguage();
 
-            // Assert
-            Assert.AreEqual("today", timeAgo);
-        }
+        // Assert
+        Assert.Equal("en", language);
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnYesterday_WhenDifferenceIsLessThan47Hours()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromHours(24);
+        // Reset Console.Out
+        Console.SetOut(originalConsoleOutput);
+    }
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+    [Fact]
+    public void ChooseLanguage_InvalidChoice_ReturnsDefaultLanguage()
+    {
+        // Arrange
+        var localization = new Localization();
 
-            // Assert
-            Assert.AreEqual("yesterday", timeAgo);
-        }
+        // Simulate user input
+        Console.SetIn(new StringReader("5"));
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnThisWeek_WhenDifferenceIsLessThan7Days()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromDays(3);
+        // Redirect Console.Out to the StringWriter
+        Console.SetOut(consoleOutput);
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+        // Act
+        string language = localization.ChooseLanguage();
 
-            // Assert
-            Assert.AreEqual("this week", timeAgo);
-        }
+        // Assert
+        Assert.Equal("en", language);
 
-        [Test]
-        public void GetTimeAgoString_ShouldReturnLongTimeAgo_WhenDifferenceIsMoreThan7Days()
-        {
-            // Arrange
-            TimeSpan difference = TimeSpan.FromDays(8);
+        // Reset Console.Out
+        Console.SetOut(originalConsoleOutput);
+    }
 
-            // Act
-            string timeAgo = Program.GetTimeAgoString(difference);
+    [Fact]
+    public void Output_WithLanguageCode_ReturnsCorrectOutput()
+    {
+        // Arrange
+        var localization = new Localization();
+        string language = "en";
 
-            // Assert
-            Assert.AreEqual("long time ago", timeAgo);
-        }
-        private StringWriter consoleOutput;
+        // Redirect Console.Out to the StringWriter
+        Console.SetOut(consoleOutput);
 
-        [SetUp]
-        public void Setup()
-        {
-            consoleOutput = new StringWriter();
-            Console.SetOut(consoleOutput);
-        }
+        // Act
+        localization.Output(language);
 
-        [TearDown]
-        public void TearDown()
-        {
-            consoleOutput.Dispose();
-            Console.SetOut(Console.Out);
-        }
+        // Assert
+        string expectedOutput = "What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time - 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\nPrediction about user online - 5\r\n";
+        Assert.Equal(expectedOutput, consoleOutput.ToString());
 
-        [Test]
-        public void RetrieveUserData_ShouldPrintOnlineMessage_WhenUserIsOnline()
-        {
-            // Arrange
-            var user = new User() { nickname = "User1", lastSeenDate = null };
+        // Reset Console.Out
+        Console.SetOut(originalConsoleOutput);
+    }
 
-            // Act
-            Program.RetrieveUserData(user);
+    [Fact]
+    public void FormatUserData_OnlineUser_ReturnsOnlineMessage()
+    {
+        // Arrange
+        var localization = new Localization();
+        string language = "en";
+        User user = new User { nickname = "John", lastSeenDate = null };
 
-            // Assert
-            string expectedOutput = "User1 is online." + Environment.NewLine;
-            Assert.AreEqual(expectedOutput, consoleOutput.ToString());
-        }
+        // Act
+        string formattedMessage = localization.FormatUserData(user, language);
 
-        [Test]
-        public void RetrieveUserData_ShouldPrintOfflineMessage_WhenUserIsOffline()
-        {
-            // Arrange
-            var user = new User() { nickname = "User2", lastSeenDate = DateTime.Now.AddMinutes(-5) };
+        // Assert
+        Assert.Equal("John is online.", formattedMessage);
+    }
 
-            // Act
-            Program.RetrieveUserData(user);
+    [Fact]
+    public void FormatUserData_OfflineUser_ReturnsTimeAgoMessage()
+    {
+        // Arrange
+        var localization = new Localization();
+        string language = "en";
+        User user = new User { nickname = "John", lastSeenDate = DateTime.Now.AddMinutes(-10) };
 
-            // Assert
-            string expectedOutput = "User2 was online couple of minutes ago" + Environment.NewLine;
-            Assert.AreEqual(expectedOutput, consoleOutput.ToString());
-        }
+        // Act
+        string formattedMessage = localization.FormatUserData(user, language);
+
+        // Assert
+        // You can assert based on the expected localized time ago message
+        Assert.Contains("minutes ago", formattedMessage);
     }
 }
