@@ -22,7 +22,7 @@ while (shouldRun)
             {
                 var onlineUser = new OnlineUsersData
                 {
-                    id  = user.Key,
+                    userId  = user.Key,
                     wasTimeOnline = user.Value,
                 };
                 string json = JsonConvert.SerializeObject(onlineUser);
@@ -100,6 +100,6 @@ public class UserData
 
 public class OnlineUsersData
 {
-    public string id { get; set; }
+    public string userId { get; set; }
     public int wasTimeOnline { get; set; }
 }
