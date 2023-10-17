@@ -44,122 +44,35 @@ namespace LastSeenApplication
         {
             string apiUrl = $"http://localhost:5169/api/stats/users?date={date}";
 
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                         Console.WriteLine(await response.Content.ReadAsStringAsync());
-                         return await response.Content.ReadAsStringAsync();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
-                }
-            }
-
-            return null;
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
         }
         
         public static async Task<string> GetUserDate(string date, string id)
         {
-            string apiUrl = $"http://localhost:5130/api/stats/user?date={date}&userId={id}";
-
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine(await response.Content.ReadAsStringAsync());
-                        return await response.Content.ReadAsStringAsync();
-
-
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
-                }
-            }
-
-            return null;
+            string apiUrl = $"http://localhost:5169/api/stats/user?date={date}&userId={id}";
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
         }
         
         public static async Task<string> GetPredictionOnline(string date)
         {
-            string apiUrl = $"http://localhost:5221/api/prediction/user?date={date}";
+            string apiUrl = $"http://localhost:5169/api/prediction/user/average?date={date}";
 
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine(await response.Content.ReadAsStringAsync());
-                        return await response.Content.ReadAsStringAsync();
-
-
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
-                }
-            }
-
-            return null;
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
         }
         
         public static async Task<string> GetPredictionOnlineUser(string date, string tolerance, string id)
         {
-            string apiUrl = $"http://localhost:5176/api/prediction/user?date={date}&tolerance={tolerance}&userId={id}";
+            string apiUrl = $"http://localhost:5169/api/prediction/user/status?date={date}&tolerance={tolerance}&userId={id}";
 
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = client.GetAsync(new Uri(apiUrl)).Result;
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine(await response.Content.ReadAsStringAsync());
-                        return await response.Content.ReadAsStringAsync();
-
-
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
-                }
-            }
-
-            return null;
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
         }
 
         public static void RunLastSeenApplication(int startingOffset, string language)
