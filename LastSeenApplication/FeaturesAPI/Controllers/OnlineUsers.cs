@@ -42,21 +42,21 @@ public class PersonController : ControllerBase
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
     }
-    private readonly string filePath = @"..\isUserOnline\bin\Debug\net7.0\online.json";
+    private readonly string filePathSecond = @"..\isUserOnline\bin\Debug\net7.0\online.json";
 
     [HttpGet("user")]
     public IActionResult GetUserOnlineData([FromQuery] string date, [FromQuery] string userId)
     {
         try
         {
-            if (!System.IO.File.Exists(filePath))
+            if (!System.IO.File.Exists(filePathSecond))
             {
                 return NotFound("JSON file not found");
             }
 
             List<OnlineUsersData> onlineUsersDataList = new List<OnlineUsersData>();
 
-            foreach (string line in System.IO.File.ReadLines(filePath))
+            foreach (string line in System.IO.File.ReadLines(filePathSecond))
             {
                 var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
 

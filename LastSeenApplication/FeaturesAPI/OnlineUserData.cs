@@ -10,5 +10,5 @@ public class OnlineUsersData
     
     public string Timestamp { get; set; }
     
-    public string isOnline { get; set; }
+    public bool isOnline { get; set; }
 }
