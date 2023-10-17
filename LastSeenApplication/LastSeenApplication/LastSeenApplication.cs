@@ -37,6 +37,11 @@ namespace LastSeenApplication
                     (datePrediction, idPredictionUser, tolerance) = localization.ForthFeatureTranslation(language);
                     GetPredictionOnlineUser(datePredictionUser, tolerance, idPredictionUser);
                     break;
+                case 6:
+                    Console.WriteLine("Enter your id");
+                    var idTotal = Console.ReadLine();
+                    GetTotalTimeForUser(idTotal);
+                    break;
             }
         }
         
@@ -70,6 +75,14 @@ namespace LastSeenApplication
         {
             string apiUrl = $"http://localhost:5169/api/prediction/user/status?date={date}&tolerance={tolerance}&userId={id}";
 
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
+        }
+
+        public static async Task<string> GetTotalTimeForUser(string id)
+        {
+            string apiUrl = $"http://localhost:5169/api/stats/user/total/users?id={id}";
             Loader loader = new Loader();
             var result = await loader.Load(apiUrl);
             return result;
