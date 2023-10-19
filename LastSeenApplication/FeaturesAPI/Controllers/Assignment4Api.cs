@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using OnlineApi;
 
+
 [Route("api/stats/user")]
 [ApiController]
 public class TotalTimeOnline : ControllerBase
@@ -19,17 +20,8 @@ public class TotalTimeOnline : ControllerBase
                 return NotFound("JSON file not found");
             }
 
-            List<OnlineUsersData> onlineUsersDataList = new List<OnlineUsersData>();
-
-            foreach (string line in System.IO.File.ReadLines(filePathFirst))
-            {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-
-                if (onlineUserData.userId == id)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-            }
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderTimeCount(filePathFirst, id);
 
             int? timeOnline = onlineUsersDataList.Count > 0
                 ? onlineUsersDataList.Last().wasTimeOnline
@@ -48,7 +40,7 @@ public class TotalTimeOnline : ControllerBase
 [ApiController]
 public class AverageTimeOnline : ControllerBase
 {
-    private readonly string filePathFirst = @"..\averageTime\bin\Debug\net7.0\online.json";
+    private readonly string filePathSecond = @"..\averageTime\bin\Debug\net7.0\online.json";
 
     [HttpGet()]
     public IActionResult GetOnlineUsersData([FromQuery] string id)
@@ -56,24 +48,21 @@ public class AverageTimeOnline : ControllerBase
         try
         {
 
-            if (!System.IO.File.Exists(filePathFirst))
+            if (!System.IO.File.Exists(filePathSecond))
             {
                 return NotFound("JSON file not found");
             }
 
-            List<int> onlineUsersDataList = new List<int>();
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderTimeCount(filePathSecond, id);
 
-            foreach (string line in System.IO.File.ReadLines(filePathFirst))
+
+            List<int> allTime = new List<int>();
+            foreach (var user in onlineUsersDataList)
             {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-
-                if (onlineUserData.userId == id)
-                {
-                    onlineUsersDataList.Add(onlineUserData.wasTimeOnline);
-                }
+                allTime.Add(user.wasTimeOnline);
             }
-
-            var averageWeek = (int)Math.Round(onlineUsersDataList.Average());
+            var averageWeek = (int)Math.Round(allTime.Average());
             var averageDay = (int)(averageWeek / 7);
 
             return Ok(new { averageWeek, averageDay });
@@ -84,3 +73,31 @@ public class AverageTimeOnline : ControllerBase
         }
     }
 }
+
+[Route("api/user")]
+[ApiController]
+public class UserController : ControllerBase
+{
+    public List<string> usersToForget = new List<string>();
+    
+    
+    [HttpPost("forget")]
+    public IActionResult ForgetUser(string id)
+    {
+        usersToForget.Add(id);
+        string onlineusers = @"..\OnlineUsers\bin\Debug\net7.0\online.json";
+        string isuseronline = @"..\isUserOnline\bin\Debug\net7.0\online.json";
+        string wasonlinetime = @"..\wasOnlineTime\bin\Debug\net7.0\online.json";
+        string averagetime = @"..\averageTime\bin\Debug\net7.0\online.json";
+        List<string> newLines = new List<string>();
+
+        OnlineUsersData remover = new OnlineUsersData();
+        remover.Remove(onlineusers,newLines, id);
+        remover.Remove(isuseronline, newLines, id);
+        remover.Remove(wasonlinetime, newLines, id);
+        remover.Remove(averagetime, newLines, id);
+        
+        return Ok(new { id });
+    }
+}
+

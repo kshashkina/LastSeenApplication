@@ -17,36 +17,10 @@ public class PersonPrediction : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-
-            List<int> onlineUsersDataList = new List<int>();
-
-            foreach (string line in System.IO.File.ReadLines(filePathFirst))
-            {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-                DateTime inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                DateTime resultDateTime = inputDateTime.AddDays(7);
-                string resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-
-                if (resultString == date)
-                {
-                    onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
-                }
-                resultDateTime = inputDateTime.AddDays(7);
-                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-                if (resultString == date)
-                {
-                    onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
-                }
-                resultDateTime = inputDateTime.AddDays(7);
-                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-                if (resultString == date)
-                {
-                    onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
-                }
-            }
-
+            
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderOnlineCountPreddiction(filePathFirst, date);
             var average = (int)Math.Round(onlineUsersDataList.Average());
-
             int? usersOnline = onlineUsersDataList.Count > 0 ? average : (int?)null;
 
             return Ok(new { usersOnline });
@@ -60,7 +34,7 @@ public class PersonPrediction : ControllerBase
     private readonly string filePathSecond = @"..\isUserOnline\bin\Debug\net7.0\online.json";
 
     [HttpGet("user/status")]
-    public IActionResult GetUserOnlineStatus([FromQuery] string date, [FromQuery] double tolerance, [FromQuery] string userId)
+    public IActionResult GetUserOnlineStatus([FromQuery] string date, [FromQuery] double tolerance, [FromQuery] string id)
     {
         try
         {
@@ -68,34 +42,10 @@ public class PersonPrediction : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-
-            List<OnlineUsersData> onlineUsersDataList = new List<OnlineUsersData>();
-
-            foreach (string line in System.IO.File.ReadLines(filePathSecond))
-            {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-                DateTime inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                DateTime resultDateTime = inputDateTime.AddDays(7);
-                string resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-
-                if (resultString == date && onlineUserData.userId == userId)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-                resultDateTime = inputDateTime.AddDays(7);
-                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-                if (resultString == date && onlineUserData.userId == userId)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-                resultDateTime = inputDateTime.AddDays(7);
-                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-                if (resultString == date && onlineUserData.userId == userId)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-            }
-
+            
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderUserPrediction(filePathSecond, date, id);
+            
             var chance = 0;
             bool isOnline = false;
 

@@ -19,17 +19,8 @@ public class PersonController : ControllerBase
                 return NotFound("JSON file not found");
             }
 
-            List<OnlineUsersData> onlineUsersDataList = new List<OnlineUsersData>();
-
-            foreach (string line in System.IO.File.ReadLines(filePathFirst))
-            {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-
-                if (onlineUserData.Timestamp == date)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-            }
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderOnlineCount(filePathFirst, date);
 
             int? usersOnline = onlineUsersDataList.Count > 0
                 ? onlineUsersDataList.Last().OnlineUsersCount
@@ -53,25 +44,15 @@ public class PersonController : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-
-            List<OnlineUsersData> onlineUsersDataList = new List<OnlineUsersData>();
-
-            foreach (string line in System.IO.File.ReadLines(filePathSecond))
-            {
-                var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-
-                if (onlineUserData.Timestamp == date && onlineUserData.userId == userId)
-                {
-                    onlineUsersDataList.Add(onlineUserData);
-                }
-            }
+            
+            OnlineUsersData reader = new OnlineUsersData();
+            var onlineUsersDataList = reader.ReaderisUserOnline(filePathSecond, date, userId);
             
             var response = new
             {
                 onlineUsersDataList.Last().isOnline,
                 onlineUsersDataList.Last().lastSeen
             };
-            
 
             return Ok(response);
         }
