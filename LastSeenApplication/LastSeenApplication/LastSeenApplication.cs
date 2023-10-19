@@ -42,6 +42,11 @@ namespace LastSeenApplication
                     var idTotal = Console.ReadLine();
                     GetTotalTimeForUser(idTotal);
                     break;
+                case 7:
+                    Console.WriteLine("Enter your id");
+                    var idAverage = Console.ReadLine();
+                    GetAverageTimeForUser(idAverage);
+                    break;
             }
         }
         
@@ -82,7 +87,15 @@ namespace LastSeenApplication
 
         public static async Task<string> GetTotalTimeForUser(string id)
         {
-            string apiUrl = $"http://localhost:5169/api/stats/user/total/users?id={id}";
+            string apiUrl = $"http://localhost:5169/api/stats/user/total?id={id}";
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
+        }
+
+        public static async Task<string> GetAverageTimeForUser(string id)
+        {
+            string apiUrl = $"http://localhost:5169/api/stats/user/average?id={id}";
             Loader loader = new Loader();
             var result = await loader.Load(apiUrl);
             return result;
