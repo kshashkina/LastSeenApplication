@@ -10,10 +10,16 @@ public class Localization
         Console.WriteLine("3. Deutsch");
         Console.WriteLine("4. Français");
         int languageChoice = Convert.ToInt32(Console.ReadLine());
+        var language = LanguageKey(languageChoice);
+        return language;
+    }
 
+
+    public string LanguageKey(int key)
+    {
         string language = "en";
 
-        switch (languageChoice)
+        switch (key)
         {
             case 1:
                 language = "en";
@@ -113,7 +119,7 @@ public class Localization
             }
         }
     }
-    public static string GetTimeAgoString(TimeSpan difference, string language)
+    public string GetTimeAgoString(TimeSpan difference, string language)
         {
             switch (language)
             {
