@@ -30,4 +30,35 @@ public class Loader
 
         return null;
     }
-}
+
+    public async Task<string> Post(string apiUrl, string id)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(id);
+
+                HttpResponseMessage response = await client.PostAsync(new Uri(apiUrl), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(responseBody);
+                    return responseBody;
+
+                }
+                else
+                {
+                    Console.WriteLine($"Mistake: {response.StatusCode}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Mistake: {ex.Message}");
+        }
+
+        return null;
+        }
+    }

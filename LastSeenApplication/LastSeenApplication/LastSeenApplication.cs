@@ -47,6 +47,12 @@ namespace LastSeenApplication
                     var idAverage = Console.ReadLine();
                     GetAverageTimeForUser(idAverage);
                     break;
+                case 8:
+                    Console.WriteLine("Enter your id");
+                    var idDelete = Console.ReadLine();
+                    DeleteUser(idDelete);
+                    break;
+                    
             }
         }
         
@@ -98,6 +104,14 @@ namespace LastSeenApplication
             string apiUrl = $"http://localhost:5169/api/stats/user/average?id={id}";
             Loader loader = new Loader();
             var result = await loader.Load(apiUrl);
+            return result;
+        }
+
+        public static async Task<string> DeleteUser(string id)
+        {
+            string apiUrl = $"http://localhost:5169/api/user/forget?id={id}";
+            Loader loader = new Loader();
+            var result = await loader.Post(apiUrl, id);
             return result;
         }
 
