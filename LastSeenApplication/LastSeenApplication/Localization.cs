@@ -47,34 +47,60 @@ public class Localization
         {
             case "en":
                 var textEN =
-                    "What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time -" +
-                    " 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\n" +
-                    "Prediction about user online - 5";
+                    "What you want to do?\n" +
+                    "Have a list of all users - 1\n" +
+                    "Have the number of users at the exact time - 2\n" +
+                    "Check if the user was online at the exact date - 3\n" +
+                    "Prediction about the number of users online - 4\n" +
+                    "Prediction about a user being online - 5\n" +
+                    "Total amount of time online for a user - 6\n" +
+                    "Average time for a user - 7\n" +
+                    "Display deleted user - 8";
                 Console.WriteLine(textEN);
                 return textEN;
+
             case "uk":
                 var textUK =
-                    "Що ви хочете зробити? \nОтримати список всіх користувачів - 1 \nОтримати кількість користувачів в точний час - 2" +
-                    "\n Перевірити, чи був користувач в мережі в точну дату - 3" +
-                    "\nПрогноз кількості користувачів онлайн - 4\nПрогноз користувачів онлайн - 5";
+                    "Що ви хочете зробити?\n" +
+                    "Отримати список всіх користувачів - 1\n" +
+                    "Отримати кількість користувачів в точний час - 2\n" +
+                    "Перевірити, чи був користувач в мережі в точну дату - 3\n" +
+                    "Прогноз кількості користувачів онлайн - 4\n" +
+                    "Прогноз користувачів онлайн - 5\n" +
+                    "Загальна кількість часу онлайн для користувача - 6\n" +
+                    "Середній час для користувача - 7\n" +
+                    "Показати видаленого користувача - 8";
                 Console.WriteLine(textUK);
                 return textUK;
+
             case "de":
                 var textDE =
-                    "Was möchten Sie tun? \nEine Liste aller Benutzer haben - 1 \nDie Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2" +
-                    "\n Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3" +
-                    "\nPrognose zur Anzahl der Benutzer online - 4\nPrognose für Benutzer online - 5";
+                    "Was möchten Sie tun?\n" +
+                    "Eine Liste aller Benutzer haben - 1\n" +
+                    "Die Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2\n" +
+                    "Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3\n" +
+                    "Prognose zur Anzahl der Benutzer online - 4\n" +
+                    "Prognose für Benutzer online - 5\n" +
+                    "Gesamte Online-Zeit für einen Benutzer - 6\n" +
+                    "Durchschnittliche Zeit für einen Benutzer - 7\n" +
+                    "Gelöschten Benutzer anzeigen - 8";
                 Console.WriteLine(textDE);
                 return textDE;
+
             case "fr":
                 var textFR =
-                    "Que souhaitez-vous faire ? \nObtenir la liste de tous les utilisateurs - 1 \nObtenir le nombre d'utilisateurs à un moment précis - 2\n" +
-                    " Vérifier si l'utilisateur était en ligne à une date précise - 3\nPrévision sur le nombre d'utilisateurs en ligne - " +
-                    "4\nPrévision sur les utilisateurs en ligne - 5";
+                    "Que souhaitez-vous faire ?\n" +
+                    "Obtenir la liste de tous les utilisateurs - 1\n" +
+                    "Obtenir le nombre d'utilisateurs à un moment précis - 2\n" +
+                    "Vérifier si l'utilisateur était en ligne à une date précise - 3\n" +
+                    "Prévision sur le nombre d'utilisateurs en ligne - 4\n" +
+                    "Prévision sur les utilisateurs en ligne - 5\n" +
+                    "Temps total en ligne pour un utilisateur - 6\n" +
+                    "Temps moyen pour un utilisateur - 7\n" +
+                    "Afficher l'utilisateur supprimé - 8";
                 Console.WriteLine(textFR);
-                return textFR;
+                return textFR; 
         }
-
         return "";
     }
     public string FormatUserData(User user, string language)
@@ -370,6 +396,36 @@ public class Localization
         }
     
         return (date, userId, tolerance);
+    }
+
+    public string Assignment4Translation(string language)
+    {
+        string userId = "";
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Enter the user ID:");
+                userId = Console.ReadLine();
+                break;
+
+            case "uk":
+                Console.WriteLine("Введіть ідентифікатор користувача:");
+                userId = Console.ReadLine();
+                break;
+
+            case "de":
+                Console.WriteLine("Geben Sie die Benutzer-ID ein:");
+                userId = Console.ReadLine();
+                break;
+
+            case "fr":
+                Console.WriteLine("Entrez l'identifiant de l'utilisateur :");
+                userId = Console.ReadLine();
+                break;
+        }
+
+        return userId;
+
     }
 
 

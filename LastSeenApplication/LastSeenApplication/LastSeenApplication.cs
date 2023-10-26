@@ -38,18 +38,15 @@ namespace LastSeenApplication
                     GetPredictionOnlineUser(datePredictionUser, tolerance, idPredictionUser);
                     break;
                 case 6:
-                    Console.WriteLine("Enter your id");
-                    var idTotal = Console.ReadLine();
+                    var idTotal = localization.Assignment4Translation(language);
                     GetTotalTimeForUser(idTotal);
                     break;
                 case 7:
-                    Console.WriteLine("Enter your id");
-                    var idAverage = Console.ReadLine();
+                    var idAverage = localization.Assignment4Translation(language);
                     GetAverageTimeForUser(idAverage);
                     break;
                 case 8:
-                    Console.WriteLine("Enter your id");
-                    var idDelete = Console.ReadLine();
+                    var idDelete = localization.Assignment4Translation(language);
                     DeleteUser(idDelete);
                     break;
                     

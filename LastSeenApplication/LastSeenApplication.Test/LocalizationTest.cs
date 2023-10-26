@@ -37,12 +37,24 @@ public class LocalizationTests
         string resultDE = localization.Output(languageDE);
 
         // Assert
-        Assert.Equal("What you want to do? \nHave a list of all users - 1 \nHave number of users at the exact time -" +
-                     " 2\n Check if the user was online at the exact date - 3\nPrediction about amount of the users online - 4\n" +
-                     "Prediction about user online - 5", resultEN);
-        Assert.Equal("Was möchten Sie tun? \nEine Liste aller Benutzer haben - 1 \nDie Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2" +
-                     "\n Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3" +
-                     "\nPrognose zur Anzahl der Benutzer online - 4\nPrognose für Benutzer online - 5", resultDE); 
+        Assert.Equal( "What you want to do?\n" +
+                      "Have a list of all users - 1\n" +
+                      "Have the number of users at the exact time - 2\n" +
+                      "Check if the user was online at the exact date - 3\n" +
+                      "Prediction about the number of users online - 4\n" +
+                      "Prediction about a user being online - 5\n" +
+                      "Total amount of time online for a user - 6\n" +
+                      "Average time for a user - 7\n" +
+                      "Display deleted user - 8", resultEN);
+        Assert.Equal( "Was möchten Sie tun?\n" +
+                      "Eine Liste aller Benutzer haben - 1\n" +
+                      "Die Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2\n" +
+                      "Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3\n" +
+                      "Prognose zur Anzahl der Benutzer online - 4\n" +
+                      "Prognose für Benutzer online - 5\n" +
+                      "Gesamte Online-Zeit für einen Benutzer - 6\n" +
+                      "Durchschnittliche Zeit für einen Benutzer - 7\n" +
+                      "Gelöschten Benutzer anzeigen - 8", resultDE); 
     }
 
     [Fact]
