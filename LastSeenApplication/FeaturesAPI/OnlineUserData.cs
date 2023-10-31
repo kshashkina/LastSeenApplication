@@ -15,8 +15,9 @@ public class OnlineUsersData
     
     public int wasTimeOnline { get; set; }
 
-    public void Remove(string fileName, List<string> newLines, string id)
+    public void Remove(string fileName, string id)
     {
+        List<string> newLines = new List<string>();
         foreach (string line in System.IO.File.ReadLines(fileName))
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
@@ -143,5 +144,25 @@ public class OnlineUsersData
 
         return onlineUsersDataList;
     }
+}
 
+
+public class CreateReportRequest
+{
+    public ReportMetrics Metrics { get; set; }
+    public string Users { get; set; }
+}
+
+public class ReportMetrics
+{
+    public int? DailyAverage { get; set; }
+    public int? WeeklyAverage { get; set; }
+    public int? Total { get; set; }
+    public int? Min { get; set; }
+    public int? Max { get; set; }
+}
+
+public class Report
+{
+    public Dictionary<string, ReportMetrics> report { get; set; }
 }
