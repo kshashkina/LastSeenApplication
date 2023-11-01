@@ -55,7 +55,9 @@ public class Localization
                     "Prediction about a user being online - 5\n" +
                     "Total amount of time online for a user - 6\n" +
                     "Average time for a user - 7\n" +
-                    "Display deleted user - 8";
+                    "Display deleted user - 8\n" +
+                    "Post report - 9\n" + 
+                    "Get report - 10";
                 Console.WriteLine(textEN);
                 return textEN;
 
@@ -63,41 +65,47 @@ public class Localization
                 var textUK =
                     "Що ви хочете зробити?\n" +
                     "Отримати список всіх користувачів - 1\n" +
-                    "Отримати кількість користувачів в точний час - 2\n" +
-                    "Перевірити, чи був користувач в мережі в точну дату - 3\n" +
-                    "Прогноз кількості користувачів онлайн - 4\n" +
-                    "Прогноз користувачів онлайн - 5\n" +
+                    "Отримати кількість користувачів в певний час - 2\n" +
+                    "Перевірити, чи користувач був онлайн на певну дату - 3\n" +
+                    "Прогноз щодо кількості користувачів онлайн - 4\n" +
+                    "Прогноз щодо того, чи користувач буде онлайн - 5\n" +
                     "Загальна кількість часу онлайн для користувача - 6\n" +
                     "Середній час для користувача - 7\n" +
-                    "Показати видаленого користувача - 8";
+                    "Показати видалених користувачів - 8\n" +
+                    "Надіслати звіт - 9\n" + 
+                    "Отримати звіт - 10";
                 Console.WriteLine(textUK);
                 return textUK;
 
             case "de":
                 var textDE =
                     "Was möchten Sie tun?\n" +
-                    "Eine Liste aller Benutzer haben - 1\n" +
-                    "Die Anzahl der Benutzer zu einem bestimmten Zeitpunkt haben - 2\n" +
-                    "Überprüfen Sie, ob der Benutzer an einem bestimmten Datum online war - 3\n" +
+                    "Alle Benutzer auflisten - 1\n" +
+                    "Anzahl der Benutzer zu einem bestimmten Zeitpunkt - 2\n" +
+                    "Überprüfen, ob der Benutzer an einem bestimmten Datum online war - 3\n" +
                     "Prognose zur Anzahl der Benutzer online - 4\n" +
-                    "Prognose für Benutzer online - 5\n" +
+                    "Prognose, ob ein Benutzer online sein wird - 5\n" +
                     "Gesamte Online-Zeit für einen Benutzer - 6\n" +
                     "Durchschnittliche Zeit für einen Benutzer - 7\n" +
-                    "Gelöschten Benutzer anzeigen - 8";
+                    "Gelöschte Benutzer anzeigen - 8\n" +
+                    "Bericht veröffentlichen - 9\n" + 
+                    "Bericht abrufen - 10";
                 Console.WriteLine(textDE);
                 return textDE;
 
             case "fr":
                 var textFR =
-                    "Que souhaitez-vous faire ?\n" +
+                    "Que voulez-vous faire ?\n" +
                     "Obtenir la liste de tous les utilisateurs - 1\n" +
                     "Obtenir le nombre d'utilisateurs à un moment précis - 2\n" +
                     "Vérifier si l'utilisateur était en ligne à une date précise - 3\n" +
-                    "Prévision sur le nombre d'utilisateurs en ligne - 4\n" +
-                    "Prévision sur les utilisateurs en ligne - 5\n" +
+                    "Prévision du nombre d'utilisateurs en ligne - 4\n" +
+                    "Prévision de la présence d'un utilisateur en ligne - 5\n" +
                     "Temps total en ligne pour un utilisateur - 6\n" +
                     "Temps moyen pour un utilisateur - 7\n" +
-                    "Afficher l'utilisateur supprimé - 8";
+                    "Afficher les utilisateurs supprimés - 8\n" +
+                    "Poster un rapport - 9\n" + 
+                    "Obtenir un rapport - 10";
                 Console.WriteLine(textFR);
                 return textFR; 
         }
@@ -348,6 +356,107 @@ public class Localization
         }
     
         return (date, userId);
+    }
+
+    public (string report, string users, string metrics) FifthFeatureTranslationPost(string language)
+    {
+        string report = "";
+        string users = "";
+        string metrics = "";
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Write report name:");
+                report = Console.ReadLine();
+                Console.WriteLine("Enter the user ID:");
+                users = Console.ReadLine();
+                Console.WriteLine("Enter the metrics:");
+                metrics = Console.ReadLine();
+                break;
+
+            case "uk":
+                Console.WriteLine("Введіть назву звіту:");
+                report = Console.ReadLine();
+                Console.WriteLine("Введіть ідентифікатор користувача:");
+                users = Console.ReadLine();
+                Console.WriteLine("Введіть метрику:");
+                metrics = Console.ReadLine();
+                break;
+
+
+            case "de":
+                Console.WriteLine("Geben Sie den Berichtsnamen ein:");
+                report = Console.ReadLine();
+                Console.WriteLine("Geben Sie die Benutzer-ID ein:");
+                users = Console.ReadLine();
+                Console.WriteLine("Geben Sie die Metriken ein:");
+                metrics = Console.ReadLine();
+                break;
+
+
+            case "fr":
+                Console.WriteLine("Entrez le nom du rapport :");
+                report = Console.ReadLine();
+                Console.WriteLine("Entrez l'identifiant de l'utilisateur :");
+                users = Console.ReadLine();
+                Console.WriteLine("Entrez les métriques :");
+                metrics = Console.ReadLine();
+                break;
+        }
+        return (report, users, metrics);
+
+    }
+    
+    public (string report, string from, string to) FifthFeatureTranslationGet(string language)
+    {
+        string report = "";
+        string from = "";
+        string to = "";
+        switch (language)
+        {
+            case "en":
+                Console.WriteLine("Write report name:");
+                report = Console.ReadLine();
+                Console.WriteLine("Enter the start date:");
+                from = Console.ReadLine();
+                Console.WriteLine("Enter the finish date:");
+                to = Console.ReadLine();
+                break;
+
+            case "uk":
+                Console.WriteLine("Введіть назву звіту:");
+                report = Console.ReadLine();
+                Console.WriteLine("Введіть початкову дату:");
+                from = Console.ReadLine();
+                Console.WriteLine("Введіть кінцеву дату:");
+                to = Console.ReadLine();
+                break;
+
+
+
+            case "de":
+                Console.WriteLine("Geben Sie den Berichtsnamen ein:");
+                report = Console.ReadLine();
+                Console.WriteLine("Geben Sie das Startdatum ein:");
+                from = Console.ReadLine();
+                Console.WriteLine("Geben Sie das Enddatum ein:");
+                to = Console.ReadLine();
+                break;
+
+
+
+            case "fr":
+                Console.WriteLine("Entrez le nom du rapport :");
+                report = Console.ReadLine();
+                Console.WriteLine("Entrez la date de début :");
+                from = Console.ReadLine();
+                Console.WriteLine("Entrez la date de fin :");
+                to = Console.ReadLine();
+                break;
+
+        }
+        return (report, from, to);
+
     }
     
     public (string date, string userId, string tolerance) ForthFeatureTranslation(string language)
