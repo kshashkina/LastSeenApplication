@@ -49,7 +49,19 @@ namespace LastSeenApplication
                     var idDelete = localization.Assignment4Translation(language);
                     DeleteUser(idDelete);
                     break;
-                    
+                case 9:
+                    var reportNamePost = Console.ReadLine();
+                    var users = Console.ReadLine();
+                    var metrics = Console.ReadLine();
+                    PostReport(reportNamePost, users, metrics);
+                    break;
+                case 10:
+                    var reportNameGet = Console.ReadLine();
+                    var from = Console.ReadLine();
+                    var to = Console.ReadLine();
+                    GetReport(reportNameGet, from, to);
+                    break;
+
             }
         }
         
@@ -109,6 +121,21 @@ namespace LastSeenApplication
             string apiUrl = $"http://localhost:5169/api/user/forget?id={id}";
             Loader loader = new Loader();
             var result = await loader.Post(apiUrl, id);
+            return result;
+        }
+
+        public static async Task<string> PostReport(string reportName, string users, string metrics)
+        {
+            string apiUrl = $"http://localhost:5169/api/report/{reportName}?users={users}&metrics={metrics}";
+            Loader loader = new Loader();
+            var result = await loader.Post(apiUrl, "{}");
+            return result;
+        }
+        public static async Task<string> GetReport(string reportName, string from, string to)
+        {
+            string apiUrl = $"http://localhost:5169/api/report/{reportName}?from={from}&to={to}";
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
             return result;
         }
 
