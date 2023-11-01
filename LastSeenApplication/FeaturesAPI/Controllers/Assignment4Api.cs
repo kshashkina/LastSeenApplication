@@ -85,17 +85,14 @@ public class UserController : ControllerBase
     public IActionResult ForgetUser(string id)
     {
         usersToForget.Add(id);
-        string onlineusers = @"..\OnlineUsers\bin\Debug\net7.0\online.json";
         string isuseronline = @"..\isUserOnline\bin\Debug\net7.0\online.json";
         string wasonlinetime = @"..\wasOnlineTime\bin\Debug\net7.0\online.json";
         string averagetime = @"..\averageTime\bin\Debug\net7.0\online.json";
-        List<string> newLines = new List<string>();
 
         OnlineUsersData remover = new OnlineUsersData();
-        remover.Remove(onlineusers,newLines, id);
-        remover.Remove(isuseronline, newLines, id);
-        remover.Remove(wasonlinetime, newLines, id);
-        remover.Remove(averagetime, newLines, id);
+        remover.Remove(isuseronline,id);
+        remover.Remove(wasonlinetime,id);
+        remover.Remove(averagetime, id);
         
         return Ok(new { id });
     }

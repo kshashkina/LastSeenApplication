@@ -42,6 +42,8 @@ public class ReportController : ControllerBase
     }
     [HttpGet("{reportName}")]
     public IActionResult GetReport(string reportName, [FromQuery] string from, [FromQuery] string to)
+{
+    try
     {
         DateTime startDate = DateTime.ParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture);
         DateTime endDate = DateTime.ParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -58,10 +60,14 @@ public class ReportController : ControllerBase
         {
             report = new Dictionary<string, ReportMetrics>()
         };
-        
+
         foreach (var date in dates)
         {
             string filename = $"{reportName}-{date}.json";
+            if (!System.IO.File.Exists(filename))
+            {
+                return NotFound("JSON file not found");
+            }
             foreach (var line in System.IO.File.ReadLines(filename))
             {
                 var onlineUserData = JsonConvert.DeserializeObject<CreateReportRequest>(line);
@@ -86,11 +92,16 @@ public class ReportController : ControllerBase
                     }
                 }
             }
+
         }
-
-
-        return Ok( new {report.report});
+        return Ok(new { report.report });
     }
+    catch (Exception ex)
+    {
+        return Ok(null);
+    }
+}
+
     private ReportMetrics GenerateReports(string user, string[] metrics)
     {
         string wasonlinetime = @"..\wasOnlineTime\bin\Debug\net7.0\online.json";
