@@ -1,0 +1,32 @@
+name: .NET Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj
+
+      - name: Build
+        run: dotnet build LastSeenApplication/LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj --no-restore
+
+      - name: Unit Tests
+        run: dotnet test LastSeenApplication/LastSeenApplication.Test/LastSeenApplication.Test.csproj --no-build --verbosity normal
