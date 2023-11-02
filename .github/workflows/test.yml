@@ -23,10 +23,10 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: Restore Dependencies
-        run: dotnet restore LastSeenApplication/LastSeenApplication.cspoj
+        run: dotnet restore LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj
 
       - name: Build
-        run: dotnet build LastSeenApplication/FeaturesApi.csproj --no-restore
+        run: dotnet build LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj
 
       - name: Unit Tests
-        run: dotnet test LastSeeenApplication/LastSeenApplication.Test.csproj --no-build --verbosity normal
+        run: dotnet test LastSeenApplication/LastSeenApplication.Test/LastSeenApplication.Test.csproj --no-build --verbosity normal
