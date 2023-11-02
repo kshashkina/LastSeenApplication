@@ -2,6 +2,14 @@ using Newtonsoft.Json;
 
 namespace OnlineApi;
 
+public class Final
+{
+    public string lastSeen { get; set; }
+    public string userId { get; set; }
+    public string nickname { get; set; }
+
+    
+}
 
 public class OnlineUsersData
 {
@@ -14,6 +22,8 @@ public class OnlineUsersData
     public bool isOnline { get; set; }
     
     public int wasTimeOnline { get; set; }
+    
+    public string nickname { get; set; }
 
     public void Remove(string fileName, string id)
     {
