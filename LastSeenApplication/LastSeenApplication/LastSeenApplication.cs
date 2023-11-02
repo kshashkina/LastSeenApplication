@@ -50,18 +50,23 @@ namespace LastSeenApplication
                     DeleteUser(idDelete);
                     break;
                 case 9:
-                    var reportNamePost = Console.ReadLine();
-                    var users = Console.ReadLine();
-                    var metrics = Console.ReadLine();
+                    var reportNamePost = "";
+                    var users = "";
+                    var metrics = "";
+                    (reportNamePost, users, metrics) = localization.FifthFeatureTranslationPost(language);
                     PostReport(reportNamePost, users, metrics);
                     break;
                 case 10:
-                    var reportNameGet = Console.ReadLine();
-                    var from = Console.ReadLine();
-                    var to = Console.ReadLine();
+                    var reportNameGet = "";
+                    var from = "";
+                    var to = "";
+                    (reportNameGet, from, to) = localization.FifthFeatureTranslationGet(language);
                     GetReport(reportNameGet, from, to);
                     break;
-
+                case 11 :
+                    GetAllUsers();
+                    break;
+                    
             }
         }
         
@@ -134,6 +139,14 @@ namespace LastSeenApplication
         public static async Task<string> GetReport(string reportName, string from, string to)
         {
             string apiUrl = $"http://localhost:5169/api/report/{reportName}?from={from}&to={to}";
+            Loader loader = new Loader();
+            var result = await loader.Load(apiUrl);
+            return result;
+        }
+
+        public static async Task<string> GetAllUsers()
+        {
+            var apiUrl = "http://localhost:5169/api/users/list";
             Loader loader = new Loader();
             var result = await loader.Load(apiUrl);
             return result;
