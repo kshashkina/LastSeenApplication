@@ -30,3 +30,7 @@ jobs:
 
       - name: Unit Tests
         run: dotnet test LastSeenApplication/LastSeenApplication.Test/LastSeenApplication.Test.csproj --no-build --verbosity normal
+
+      - name: Integration Tests
+        run: dotnet test LastSeenApplication/IntegrationTest/IntegrationTest.csproj --no-build --verbosity normal
+
