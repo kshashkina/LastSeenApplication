@@ -19,7 +19,7 @@ jobs:
               with:
                   dotnet-version: 7.0.x
             - name: Publish
-              run: dotnet publish -c Release -o .out
+              run: dotnet publish LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj -c Release -o .out
 
             - name: Set up SSH key
               run: |
