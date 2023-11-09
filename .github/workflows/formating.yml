@@ -22,5 +22,7 @@ jobs:
             - name: Install dotnet-format tool
               run: dotnet tool install -g dotnet-format
 
-            - name: Check Code Formatting
-              run: dotnet format --severity error --verify-no-changes
+            - name: Format Code
+              run: |
+                cd LastSeenApplication/FeaturesAPI
+                dotnet format --severity error --verify-no-changes
