@@ -35,7 +35,7 @@ jobs:
                 sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no -r .out $SSH_USERNAME@$VM_IP:~/LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish
             - name: Start the server
               run: |
-                 sshpass -p $SSH_PRIVATE_KEY ssh $SSH_USERNAME@$VM_IP "cd LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish && dotnet FeaturesAPI.dll && ^C"
+                sshpass -p $SSH_PRIVATE_KEY ssh $SSH_USERNAME@$VM_IP "cd LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish && timeout 3s dotnet FeaturesAPI.dll"
             - name: Upload build artifacts
               uses: actions/upload-artifact@v2
               with:
