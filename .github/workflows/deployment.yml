@@ -30,7 +30,7 @@ jobs:
                   fi
             - name: Deploy to VM
               run: |
-                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no Features.dll $SSH_USERNAME@$VM_IP:/server/output
+                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no .out/FeaturesAPI.dll $SSH_USERNAME@$VM_IP:/etc/systemd/system/FeaturesAPI.service
                 sshpass -p $SSH_PRIVATE_KEY ssh $SSH_USERNAME@$VM_IP "systemctl daemon-reload"
                 sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no -r .out $SSH_USERNAME@$VM_IP:/server/output
             - name: Start the server
