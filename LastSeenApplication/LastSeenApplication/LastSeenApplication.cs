@@ -59,6 +59,9 @@ namespace LastSeenApplication
                 case 11:
                     await GetAllUsers();
                     break;
+                case 12:
+                    await GetAllReports();
+                    break;
             }
         }
 
@@ -119,6 +122,12 @@ namespace LastSeenApplication
         public static async Task<string> GetAllUsers()
         {
             var apiUrl = "http://localhost:5169/api/users/list";
+            return await LoadData(apiUrl);
+        }
+
+        public static async Task<string> GetAllReports()
+        {
+            var apiUrl = "http://localhost:5169/api/reports";
             return await LoadData(apiUrl);
         }
 
