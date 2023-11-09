@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OnlineApi;
 
@@ -17,7 +17,7 @@ public class PersonPrediction : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-            
+
             OnlineUsersData reader = new OnlineUsersData();
             var onlineUsersDataList = reader.ReaderOnlineCountPreddiction(filePathFirst, date);
             var average = (int)Math.Round(onlineUsersDataList.Average());
@@ -42,10 +42,10 @@ public class PersonPrediction : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-            
+
             OnlineUsersData reader = new OnlineUsersData();
             var onlineUsersDataList = reader.ReaderUserPrediction(filePathSecond, date, id);
-            
+
             var chance = 0;
             bool isOnline = false;
 

@@ -1,29 +1,29 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace OnlineApi;
 
 public class Final
 {
-    public string lastSeen { get; set; }
-    public string userId { get; set; }
-    public string nickname { get; set; }
+    public string? lastSeen { get; set; }
+    public string? userId { get; set; }
+    public string? nickname { get; set; }
 
-    
+
 }
 
 public class OnlineUsersData
 {
-    public string lastSeen { get; set; }
-    public string userId { get; set; }
+    public string? lastSeen { get; set; }
+    public string? userId { get; set; }
     public int OnlineUsersCount { get; set; }
-    
-    public string Timestamp { get; set; }
-    
+
+    public string? Timestamp { get; set; }
+
     public bool isOnline { get; set; }
-    
+
     public int wasTimeOnline { get; set; }
-    
-    public string nickname { get; set; }
+
+    public string? nickname { get; set; }
 
     public void Remove(string fileName, string id)
     {
@@ -32,7 +32,7 @@ public class OnlineUsersData
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
 
-            if (onlineUserData.userId != id)
+            if (onlineUserData?.userId != id)
             {
                 newLines.Add(line);
             }
@@ -49,7 +49,7 @@ public class OnlineUsersData
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
 
-            if (onlineUserData.userId == id)
+            if (onlineUserData?.userId == id)
             {
                 onlineUsersDataList.Add(onlineUserData);
             }
@@ -65,23 +65,31 @@ public class OnlineUsersData
         foreach (string line in System.IO.File.ReadLines(filePath))
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-            DateTime inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime inputDateTime = DateTime.Now;
+            if (onlineUserData != null)
+            {
+                if (onlineUserData.Timestamp != null)
+                {
+                    inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
+
             DateTime resultDateTime = inputDateTime.AddDays(7);
             string resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
 
-            if (resultString == date)
+            if (resultString == date && onlineUserData != null)
             {
                 onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
             }
             resultDateTime = inputDateTime.AddDays(7);
             resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-            if (resultString == date)
+            if (resultString == date && onlineUserData != null)
             {
                 onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
             }
             resultDateTime = inputDateTime.AddDays(7);
             resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-            if (resultString == date)
+            if (resultString == date && onlineUserData != null)
             {
                 onlineUsersDataList.Add(onlineUserData.OnlineUsersCount);
             }
@@ -96,25 +104,35 @@ public class OnlineUsersData
         foreach (string line in System.IO.File.ReadLines(filePath))
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-            DateTime inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime inputDateTime = DateTime.Now;
+            if (onlineUserData != null)
+            {
+                if (onlineUserData.Timestamp != null)
+                {
+                    inputDateTime = DateTime.ParseExact(onlineUserData.Timestamp, "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
             DateTime resultDateTime = inputDateTime.AddDays(7);
             string resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
 
-            if (resultString == date && onlineUserData.userId == id)
+            if (onlineUserData != null)
             {
-                onlineUsersDataList.Add(onlineUserData);
-            }
-            resultDateTime = inputDateTime.AddDays(7);
-            resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-            if (resultString == date && onlineUserData.userId == id)
-            {
-                onlineUsersDataList.Add(onlineUserData);
-            }
-            resultDateTime = inputDateTime.AddDays(7);
-            resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
-            if (resultString == date && onlineUserData.userId == id)
-            {
-                onlineUsersDataList.Add(onlineUserData);
+                if (resultString == date && onlineUserData.userId == id)
+                {
+                    onlineUsersDataList.Add(onlineUserData);
+                }
+                resultDateTime = inputDateTime.AddDays(7);
+                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
+                if (resultString == date && onlineUserData.userId == id)
+                {
+                    onlineUsersDataList.Add(onlineUserData);
+                }
+                resultDateTime = inputDateTime.AddDays(7);
+                resultString = resultDateTime.ToString("yyyy-MM-dd-HH:mm:ss");
+                if (resultString == date && onlineUserData.userId == id)
+                {
+                    onlineUsersDataList.Add(onlineUserData);
+                }
             }
         }
 
@@ -129,9 +147,12 @@ public class OnlineUsersData
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
 
-            if (onlineUserData.Timestamp == date)
+            if (onlineUserData != null)
             {
-                onlineUsersDataList.Add(onlineUserData);
+                if (onlineUserData.Timestamp == date)
+                {
+                    onlineUsersDataList.Add(onlineUserData);
+                }
             }
         }
 
@@ -145,11 +166,14 @@ public class OnlineUsersData
         foreach (string line in System.IO.File.ReadLines(filePath))
         {
             var onlineUserData = JsonConvert.DeserializeObject<OnlineUsersData>(line);
-
-            if (onlineUserData.Timestamp == date && onlineUserData.userId == id)
+            if (onlineUserData != null)
             {
-                onlineUsersDataList.Add(onlineUserData);
+                if (onlineUserData.Timestamp == date && onlineUserData.userId == id)
+                {
+                    onlineUsersDataList.Add(onlineUserData);
+                }
             }
+
         }
 
         return onlineUsersDataList;
@@ -159,8 +183,8 @@ public class OnlineUsersData
 
 public class CreateReportRequest
 {
-    public ReportMetrics Metrics { get; set; }
-    public string Users { get; set; }
+    public ReportMetrics? Metrics { get; set; }
+    public string? Users { get; set; }
 }
 
 public class ReportMetrics
@@ -174,5 +198,5 @@ public class ReportMetrics
 
 public class Report
 {
-    public Dictionary<string, ReportMetrics> report { get; set; }
+    public Dictionary<string, ReportMetrics>? report { get; set; }
 }

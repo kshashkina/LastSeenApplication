@@ -55,6 +55,6 @@ public class Output : ControllerBase
 
 public class ReportOutput
 {
-    public string Name { get; set; }
-    public string _report { get; set; }
+    public string? Name { get; set; }
+    public string? _report { get; set; }
 }

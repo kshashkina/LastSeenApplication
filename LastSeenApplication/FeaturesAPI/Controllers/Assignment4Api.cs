@@ -79,8 +79,8 @@ public class AverageTimeOnline : ControllerBase
 public class UserController : ControllerBase
 {
     public List<string> usersToForget = new List<string>();
-    
-    
+
+
     [HttpPost("forget")]
     public IActionResult ForgetUser(string id)
     {
@@ -90,10 +90,10 @@ public class UserController : ControllerBase
         string averagetime = @"..\averageTime\bin\Debug\net7.0\online.json";
 
         OnlineUsersData remover = new OnlineUsersData();
-        remover.Remove(isuseronline,id);
-        remover.Remove(wasonlinetime,id);
+        remover.Remove(isuseronline, id);
+        remover.Remove(wasonlinetime, id);
         remover.Remove(averagetime, id);
-        
+
         return Ok(new { id });
     }
 }
