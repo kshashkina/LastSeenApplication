@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             SSH_USERNAME: "root"
-            SSH_PRIVATE_KEY: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0Mlmz4IIdVFXGSuj1rrVYk9F7e7/iWN20Gh9R7kjA2tFr5pyr1y42exSrp12N/fZ2E7IwlEeuB0hi9CLGO9s2WViLismI3E9jZk15w/3d05gcPayxv/KDbf4K0Kl9rDF6JnOXdlUTszdK9v2y375K3Dkn7DYvzhX8jJuWxo0Ac1mdA0L7RAzH80z6RN0sf+O+AFqmcFOu1EDkoznW+9JBnjrARTlFYGcc2pNuptAmKcQmPOLzEBfCAUuMQVOXLQ2rFyaYSzhry+1HV4C4NwfEiyuL/Ngq5pUagqluTMXOksHgjFiWtTP9RAjicgy+C/lS8TTyO3eclG+YaLlYPYPA+mS+LLw+31G9xSRNXlG69KiHiYrZycxD1pOfIDUZhpp3a68jtJ41AXP/JlDmoIDDMbiDq6yIkkBcBpIY0OjEAfLEl7VgoC1R7Wc2oteu25bkRDx3IQEHAKRDVQAFw7OVurcTP4me+KjRyxIMuwBvCVCVUDzg7VKeYDfabvDYpYU= root@ubuntu-s-1vcpu-512mb-10gb-fra1-01"
+            SSH_PRIVATE_KEY: "KS24102004ks"
             VM_IP: "138.197.176.217"
         steps:
             - uses: actions/checkout@v3
@@ -23,18 +23,18 @@ jobs:
 
             - name: Stop the server
               run: |
-                  if ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "systemctl is-active LastSeenDemo"; then
-                    ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "service LastSeenDemo stop"
+                  if ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "systemctl is-active FeaturesAPI"; then
+                    ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "service FeaturesAPI stop"
                   else
                     echo "Service doesn't exist or is not running. No need to stop."
                   fi
             - name: Deploy to VM
               run: |
-                scp -o StrictHostKeyChecking=no -i deploy_key LastSeenDemo.service $SSH_USERNAME@$VM_IP:/etc/systemd/system/LastSeenDemo.service
-                ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "systemctl daemon-reload"
-                scp -o StrictHostKeyChecking=no -i deploy_key -r .out $SSH_USERNAME@$VM_IP:/server/output
+                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no Features.dll $SSH_USERNAME@$VM_IP:/LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish
+                sshpass -p $SSH_PRIVATE_KEY ssh $SSH_USERNAME@$VM_IP "systemctl daemon-reload"
+                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no -r .out $SSH_USERNAME@$VM_IP:/server/output
             - name: Start the server
-              run: ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "service LastSeenDemo start"
+              run: ssh -o StrictHostKeyChecking=no -p $SSH_PRIVATE_KEY $SSH_USERNAME@$VM_IP "service FeaturesAPI.dll start"
             - name: Upload build artifacts
               uses: actions/upload-artifact@v2
               with:
