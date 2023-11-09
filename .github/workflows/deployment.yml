@@ -9,9 +9,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-            VM_IP: ${{ secrets.VM_IP }}
+            SSH_USERNAME: "root"
+            SSH_PRIVATE_KEY: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0Mlmz4IIdVFXGSuj1rrVYk9F7e7/iWN20Gh9R7kjA2tFr5pyr1y42exSrp12N/fZ2E7IwlEeuB0hi9CLGO9s2WViLismI3E9jZk15w/3d05gcPayxv/KDbf4K0Kl9rDF6JnOXdlUTszdK9v2y375K3Dkn7DYvzhX8jJuWxo0Ac1mdA0L7RAzH80z6RN0sf+O+AFqmcFOu1EDkoznW+9JBnjrARTlFYGcc2pNuptAmKcQmPOLzEBfCAUuMQVOXLQ2rFyaYSzhry+1HV4C4NwfEiyuL/Ngq5pUagqluTMXOksHgjFiWtTP9RAjicgy+C/lS8TTyO3eclG+YaLlYPYPA+mS+LLw+31G9xSRNXlG69KiHiYrZycxD1pOfIDUZhpp3a68jtJ41AXP/JlDmoIDDMbiDq6yIkkBcBpIY0OjEAfLEl7VgoC1R7Wc2oteu25bkRDx3IQEHAKRDVQAFw7OVurcTP4me+KjRyxIMuwBvCVCVUDzg7VKeYDfabvDYpYU= root@ubuntu-s-1vcpu-512mb-10gb-fra1-01"
+            VM_IP: "138.197.176.217"
         steps:
             - uses: actions/checkout@v3
             - name: Setup .NET
@@ -21,13 +21,6 @@ jobs:
             - name: Publish
               run: dotnet publish LastSeenApplication/FeaturesAPI/FeaturesAPI.csproj -c Release -o .out
 
-            - name: Set up SSH key
-              run: |
-                  echo $VM_IP
-                  echo "$SSH_PRIVATE_KEY" > deploy_key
-                  chmod 600 deploy_key
-                  eval $(ssh-agent -s)
-                  ssh-add deploy_key
             - name: Stop the server
               run: |
                   if ssh -o StrictHostKeyChecking=no -i deploy_key $SSH_USERNAME@$VM_IP "systemctl is-active LastSeenDemo"; then
