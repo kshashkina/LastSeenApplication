@@ -13,7 +13,7 @@ public class PersonController : ControllerBase
     {
         try
         {
-            
+
             if (!System.IO.File.Exists(filePathFirst))
             {
                 return NotFound("JSON file not found");
@@ -44,10 +44,10 @@ public class PersonController : ControllerBase
             {
                 return NotFound("JSON file not found");
             }
-            
+
             OnlineUsersData reader = new OnlineUsersData();
             var onlineUsersDataList = reader.ReaderisUserOnline(filePathSecond, date, userId);
-            
+
             var response = new
             {
                 onlineUsersDataList.Last().isOnline,
