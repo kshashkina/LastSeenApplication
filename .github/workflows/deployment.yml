@@ -30,11 +30,11 @@ jobs:
                   fi
             - name: Deploy to VM
               run: |
-                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no .out/FeaturesAPI.dll $SSH_USERNAME@$VM_IP:/etc/systemd/system/FeaturesAPI.service
+                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no .out/FeaturesAPI.dll $SSH_USERNAME@$VM_IP:/LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish
                 sshpass -p $SSH_PRIVATE_KEY ssh $SSH_USERNAME@$VM_IP "systemctl daemon-reload"
-                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no -r .out $SSH_USERNAME@$VM_IP:/server/output
+                sshpass -p $SSH_PRIVATE_KEY scp -o StrictHostKeyChecking=no -r .out $SSH_USERNAME@$VM_IP:/LastSeenApplication/LastSeenApplication/FeaturesAPI/bin/Debug/net7.0/publish
             - name: Start the server
-              run: ssh -o StrictHostKeyChecking=no -p $SSH_PRIVATE_KEY $SSH_USERNAME@$VM_IP "service FeaturesAPI start"
+              run: ssh -o StrictHostKeyChecking=no -p $SSH_PRIVATE_KEY $SSH_USERNAME@$VM_IP "dotnet FeaturesAPI.dll"
             - name: Upload build artifacts
               uses: actions/upload-artifact@v2
               with:
